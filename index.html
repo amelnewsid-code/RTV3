@@ -16,7 +16,7 @@
     body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
     button,input,select,textarea{font:inherit}button{cursor:pointer}
     a{text-decoration:none;color:inherit}
-    .hidden{display:none!important}.muted{color:var(--muted)}.small{font-size:12px}
+    .boot-loading{text-align:center;padding:80px 20px;color:#063c31}.boot-logo{font-size:56px}.boot-loading h2{margin:10px 0 4px}.boot-loading p{color:#6c7b76}.hidden{display:none!important}.muted{color:var(--muted)}.small{font-size:12px}
     .app{min-height:100vh}.topbar{height:78px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:24px;padding:12px 24px;position:sticky;top:0;z-index:30}
     .brand{display:flex;align-items:center;gap:12px;min-width:310px}.brand img{width:50px;height:50px;object-fit:contain}.brand strong{font-size:20px;color:var(--dark)}.brand span{display:block;font-size:12px;color:var(--green)}
     .top-message{flex:1;font-weight:700;color:#173b34;font-size:15px}.top-actions{display:flex;gap:18px;align-items:center}.top-action{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:#173b34}.top-action i{font-style:normal;font-size:24px}.sos-mini{color:#fff;background:var(--red);border-radius:50%;width:34px;height:34px;display:grid;place-items:center;font-weight:900}
@@ -38,20 +38,22 @@
   </style>
 </head>
 <body>
-<div id="root"></div>
+<div id="root"><div class="boot-loading"><div class="boot-logo">🏠</div><h2>PORTAL RT DIGITAL</h2><p>Memuat aplikasi...</p></div></div>
 <div id="toast" class="toast hidden"></div>
 <div id="modal" class="modal hidden"></div>
 
 <script>
 const APP_CONFIG = {
-  APP_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbxJKG0wjun5zxhwCeX1dNDXb5Nu2apbeAOHI6Xz_pGcl5rhFc9fMW_Qeudzv-1RJqFg/exec',
+  APP_SCRIPT_URL: '',
   LOGO_DRIVE_ID: '1oL-IGjrcykR1hSppDwYAxVLANPsXzR54',
   BACKGROUND_DRIVE_ID: '1ot-sGhbWr9TnjSTed5F0ooE2D6NjNdSh'
 };
 
+function safeGet(key, fallback){try{return localStorage.getItem(key) || fallback;}catch(e){return fallback;}}
+function safeJson(key){try{var raw=safeGet(key,'');return raw ? JSON.parse(raw) : null;}catch(e){return null;}}
 const state = {
-  token: localStorage.getItem('rt_token') || '',
-  user: JSON.parse(localStorage.getItem('rt_user') || 'null'),
+  token: safeGet('rt_token',''),
+  user: safeJson('rt_user'),
   publicData: null,
   dash: null,
   page: 'dashboard',
@@ -80,7 +82,7 @@ function call(fn,args=[],silent=false){
 function saveSession(x){state.token=x.token;state.user=x.user;localStorage.setItem('rt_token',x.token);localStorage.setItem('rt_user',JSON.stringify(x.user));}
 function clearSession(){state.token='';state.user=null;localStorage.removeItem('rt_token');localStorage.removeItem('rt_user');}
 function isAdmin(){return state.user && ['ADMIN','PENGURUS'].includes(state.user.role)}
-function isOwner(){return state.user?.role==='ADMIN'}
+function isOwner(){return !!state.user && state.user.role==='ADMIN'}
 function badge(s){const x=String(s||'').toUpperCase();let c='b-gray';if(['APPROVED','ACTIVE','PAID','PUBLISHED','HANDLED','ANSWERED'].includes(x))c='b-green';else if(['PENDING','OPEN','PLANNED','UNPAID'].includes(x))c='b-yellow';else if(['REJECTED','REJECT','CANCELLED','SUSPENDED'].includes(x))c='b-red';else if(['APPROVED'].includes(x))c='b-blue';return `<span class="badge ${c}">${esc(s||'-')}</span>`}
 function empty(text='Belum ada data.'){return `<div class="empty">${esc(text)}</div>`}
 
@@ -138,9 +140,9 @@ function renderPublic(){
       <div class="card"><h3>🌙 Jadwal Ronda</h3><div class="list"><div class="list-item"><div class="icon-box">🛡️</div><div><b>Kelompok 2</b><div class="small muted">Pukul 22.00 – 02.00 WIB</div><div class="small">Budi Santoso • Ahmad Ricky • Dedi Setiawan</div></div></div><div class="small muted">Login untuk melihat jadwal lengkap.</div></div></div>
     </section>
     <section class="stat-row">
-      <div class="stat"><b>${Number(d.stats?.residents||0)}</b><span>Warga aktif</span></div>
-      <div class="stat"><b>${Number(d.stats?.activities||0)}</b><span>Kegiatan terjadwal</span></div>
-      <div class="stat"><b>${Number(d.stats?.assets||0)}</b><span>Aset RT tersedia</span></div>
+      <div class="stat"><b>${Number((d.stats && d.stats.residents)||0)}</b><span>Warga aktif</span></div>
+      <div class="stat"><b>${Number((d.stats && d.stats.activities)||0)}</b><span>Kegiatan terjadwal</span></div>
+      <div class="stat"><b>${Number((d.stats && d.stats.assets)||0)}</b><span>Aset RT tersedia</span></div>
     </section>
     <div class="public-footer">© ${new Date().getFullYear()} ${esc(s.appName||'Portal RT Digital')} • ${esc(s.rt||'RT')} ${esc(s.village||'')}</div>
   </div>
@@ -224,7 +226,7 @@ function renderSidebar(){
     ['plans','🗓️','Rencana Bulanan/Tahunan']
   ];
   if(admin)items.push(['users','👥','Data & ACC Warga'],['assets','🧰','Manajemen Aset'],['dues','💳','Iuran Warga'],['finance','💰','Keuangan RT'],['reports','📊','Laporan & Export'],['settings','⚙️','Pengaturan']);
-  return `<aside class="sidebar" id="sidebar"><div class="side-brand"><img src="${logoUrl}"><div><b>Portal RT Digital</b><small>${esc(state.dash?.user?.role||'WARGA')}</small></div></div><div class="nav-title">Menu Utama</div><nav class="nav">${items.map(x=>`<button id="nav-${x[0]}" onclick="go('${x[0]}')">${x[1]} ${x[2]}</button>`).join('')}<div class="nav-title">Akun</div><button onclick="doLogout()">🚪 Logout</button></nav></aside>`;
+  return `<aside class="sidebar" id="sidebar"><div class="side-brand"><img src="${logoUrl}"><div><b>Portal RT Digital</b><small>${esc(state.dash && state.dash.user ? state.dash.user.role : 'WARGA'||'WARGA')}</small></div></div><div class="nav-title">Menu Utama</div><nav class="nav">${items.map(x=>`<button id="nav-${x[0]}" onclick="go('${x[0]}')">${x[1]} ${x[2]}</button>`).join('')}<div class="nav-title">Akun</div><button onclick="doLogout()">🚪 Logout</button></nav></aside>`;
 }
 function toggleSide(){$('sidebar')?.classList.toggle('open')}
 async function go(page){state.page=page;state.module=page;document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));$('nav-'+page)?.classList.add('active');$('sidebar')?.classList.remove('open');await renderPage();}
@@ -404,7 +406,8 @@ async function readNotification(id){try{await call('markNotificationRead',[state
 
 async function doLogout(){await call('logout',[state.token],true).catch(()=>{});clearSession();renderPublic();toast('Anda telah logout');}
 
-window.addEventListener('load',boot);
+function startApp(){try{boot();}catch(e){console.error(e);var r=document.getElementById('root');if(r){r.innerHTML='<div class="auth"><div class="auth-box"><div class="auth-logo"><h1>PORTAL RT DIGITAL</h1><p>Aplikasi gagal memuat.</p></div><div class="card"><b>Terjadi kesalahan JavaScript.</b><p class="small muted">Buka F12 → Console untuk melihat detail error. Pastikan menggunakan file Index.html versi terbaru.</p><button class="btn btn-primary btn-block" onclick="location.reload()">Muat Ulang</button></div></div></div>';}}}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',startApp);}else{startApp();}
 </script>
 </body>
 </html>
