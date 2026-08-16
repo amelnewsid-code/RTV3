@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#087b5a">
+  <title>Portal RT Digital</title>
+  <style>
+    :root{
+      --green:#087b5a;--green2:#0d9b70;--dark:#063c31;--mint:#eaf8f2;
+      --red:#e62e22;--orange:#f59e0b;--blue:#2563eb;--text:#13231f;
+      --muted:#6c7b76;--line:#dbe7e2;--bg:#f5f8f7;--card:#fff;
+      --shadow:0 10px 28px rgba(9,61,49,.08);--radius:18px
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    button,input,select,textarea{font:inherit}button{cursor:pointer}
+    a{text-decoration:none;color:inherit}
+    .hidden{display:none!important}.muted{color:var(--muted)}.small{font-size:12px}
+    .app{min-height:100vh}.topbar{height:78px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:24px;padding:12px 24px;position:sticky;top:0;z-index:30}
+    .brand{display:flex;align-items:center;gap:12px;min-width:310px}.brand img{width:50px;height:50px;object-fit:contain}.brand strong{font-size:20px;color:var(--dark)}.brand span{display:block;font-size:12px;color:var(--green)}
+    .top-message{flex:1;font-weight:700;color:#173b34;font-size:15px}.top-actions{display:flex;gap:18px;align-items:center}.top-action{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:#173b34}.top-action i{font-style:normal;font-size:24px}.sos-mini{color:#fff;background:var(--red);border-radius:50%;width:34px;height:34px;display:grid;place-items:center;font-weight:900}
+    .hero{max-width:1500px;margin:18px auto 0;padding:0 18px}.hero-card{min-height:390px;border-radius:20px;background:linear-gradient(90deg,rgba(0,47,37,.78),rgba(0,47,37,.15)),var(--hero-bg);background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:34px;color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero-content{max-width:610px}.hero h1{font-size:40px;line-height:1.08;margin:0 0 12px}.hero p{max-width:540px;line-height:1.6;margin:0 0 18px}.btns{display:flex;flex-wrap:wrap;gap:10px}.btn{border:0;border-radius:11px;padding:11px 17px;font-weight:800;transition:.18s}.btn:hover{transform:translateY(-1px)}.btn-primary{background:var(--green);color:#fff}.btn-light{background:#fff;color:var(--green)}.btn-danger{background:var(--red);color:#fff}.btn-outline{background:#fff;border:1px solid var(--line);color:var(--dark)}.btn-warning{background:#fef3c7;color:#92400e}.btn-sm{padding:7px 10px;font-size:12px}.btn-block{width:100%}
+    .preview-grid{max-width:1500px;margin:16px auto;padding:0 18px;display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:14px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,.03);padding:16px}.card h3,.card h4{margin:0 0 12px}.list{display:grid;gap:10px}.list-item{display:flex;gap:10px;align-items:flex-start;padding:9px;border-radius:12px;background:#fbfdfc}.icon-box{width:30px;height:30px;border-radius:9px;background:var(--mint);display:grid;place-items:center;flex:none}.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1500px;margin:0 auto;padding:0 18px 18px}.stat{padding:16px;background:#fff;border:1px solid var(--line);border-radius:14px}.stat b{font-size:25px;color:var(--green);display:block}.stat span{font-size:12px;color:var(--muted)}
+    .auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#e8f7f1,#f7fbf9)}.auth-box{width:min(430px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:var(--shadow)}.auth-logo{text-align:center}.auth-logo img{width:78px;height:78px;object-fit:contain}.auth-logo h1{font-size:22px;margin:6px 0;color:var(--dark)}.auth-logo p{margin:0 0 20px;color:var(--green);font-size:13px}
+    .form{display:grid;gap:12px}.field{display:grid;gap:6px}.field label{font-size:12px;font-weight:800;color:#37534b}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 12px;outline:0}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(8,123,90,.08)}textarea{min-height:100px;resize:vertical}.auth-switch{text-align:center;font-size:12px;margin-top:12px}.auth-switch a{color:var(--green);font-weight:800}
+    .layout{display:grid;grid-template-columns:245px 1fr;min-height:calc(100vh - 78px)}.sidebar{background:#063c31;color:#fff;padding:16px 12px;position:sticky;top:78px;height:calc(100vh - 78px);overflow:auto}.side-brand{padding:10px 10px 18px;display:flex;align-items:center;gap:10px}.side-brand img{width:38px;height:38px;background:#fff;border-radius:10px}.side-brand b{font-size:13px}.side-brand small{display:block;color:#a8d9ca;font-size:10px}.nav-title{font-size:10px;text-transform:uppercase;color:#8fc9b9;padding:14px 10px 7px}.nav{display:grid;gap:3px}.nav button{border:0;background:transparent;color:#e6f7f2;text-align:left;padding:10px;border-radius:9px;font-size:12px;display:flex;gap:10px;align-items:center}.nav button:hover,.nav button.active{background:#0b8062}.main{padding:20px;min-width:0}.mobile-head{display:none}.page-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}.page-head h2{margin:0;font-size:22px}.page-head p{margin:4px 0 0;color:var(--muted);font-size:12px}.grid{display:grid;gap:14px}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .dash-stat{display:flex;justify-content:space-between;align-items:center}.dash-stat .num{font-size:26px;font-weight:900;color:var(--green)}.dash-stat .ico{width:42px;height:42px;border-radius:12px;background:var(--mint);display:grid;place-items:center;font-size:20px}.section{margin-top:16px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:13px}.table{width:100%;border-collapse:collapse;min-width:720px;background:#fff}.table th,.table td{padding:10px;border-bottom:1px solid #edf2f0;text-align:left;font-size:12px;vertical-align:top}.table th{background:#f7faf9;color:#46645b;position:sticky;top:0}.badge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:900}.b-green{background:#dcfce7;color:#166534}.b-yellow{background:#fef3c7;color:#92400e}.b-red{background:#fee2e2;color:#991b1b}.b-blue{background:#dbeafe;color:#1e40af}.b-gray{background:#eef2f2;color:#52625e}
+    .module-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}.module-tabs button{border:1px solid var(--line);background:#fff;padding:8px 11px;border-radius:10px;font-size:11px;font-weight:800}.module-tabs button.active{background:var(--green);color:#fff;border-color:var(--green)}
+    .empty{padding:30px;text-align:center;color:var(--muted)}.toast{position:fixed;right:18px;bottom:18px;z-index:100;background:#173b34;color:#fff;padding:12px 15px;border-radius:12px;box-shadow:var(--shadow);font-size:12px;max-width:350px}.toast.error{background:#991b1b}
+    .modal{position:fixed;inset:0;background:rgba(0,25,20,.48);display:grid;place-items:center;padding:18px;z-index:80}.modal-box{width:min(650px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:20px;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.modal-head h3{margin:0}.close{border:0;background:#eef4f1;border-radius:50%;width:34px;height:34px}
+    .sos-float{position:fixed;right:22px;bottom:22px;width:66px;height:66px;border:5px solid #fff;border-radius:50%;background:var(--red);color:#fff;font-weight:1000;z-index:60;box-shadow:0 8px 28px rgba(230,46,34,.35)}.pulse{animation:pulse 1.8s infinite}@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(230,46,34,.08),0 8px 28px rgba(230,46,34,.35)}}
+    .profile{display:flex;gap:14px;align-items:center}.avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;background:#dff3ec}.notification{padding:10px;border-bottom:1px solid var(--line)}.notification:last-child{border:0}.notification.unread{background:#effaf6}
+    .public-footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}.iframe-shell{height:100vh}.iframe-shell iframe{width:100%;height:100%;border:0}
+    @media(max-width:1100px){.top-message{display:none}.top-actions{margin-left:auto}.brand{min-width:auto}.layout{grid-template-columns:210px 1fr}.grid-4{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:760px){.topbar{height:64px;padding:8px 12px}.brand img{width:40px;height:40px}.brand strong{font-size:16px}.brand span{font-size:9px}.top-actions .top-action:not(.mobile-keep){display:none}.layout{display:block}.sidebar{position:fixed;left:-270px;top:64px;width:260px;height:calc(100vh - 64px);z-index:50;transition:.2s}.sidebar.open{left:0}.mobile-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.mobile-head button{border:0;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px}.main{padding:12px}.hero{padding:0 10px}.hero-card{min-height:350px;padding:22px}.hero h1{font-size:30px}.preview-grid,.grid-2,.grid-3,.stat-row{grid-template-columns:1fr}.grid-4{grid-template-columns:1fr 1fr}.top-action{font-size:10px}.brand{gap:7px}.sos-float{width:58px;height:58px;right:14px;bottom:14px}}
+    @media(max-width:420px){.grid-4{grid-template-columns:1fr}.btn{width:100%}.hero .btns{display:grid}}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<div id="toast" class="toast hidden"></div>
+<div id="modal" class="modal hidden"></div>
+
+<script>
+const APP_CONFIG = {
+  APP_SCRIPT_URL: 'PASTE_DEPLOYED_APPS_SCRIPT_URL_HERE',
+  LOGO_DRIVE_ID: '1oL-IGjrcykR1hSppDwYAxVLANPsXzR54',
+  BACKGROUND_DRIVE_ID: '1ot-sGhbWr9TnjSTed5F0ooE2D6NjNdSh'
+};
+
+const state = {
+  token: localStorage.getItem('rt_token') || '',
+  user: JSON.parse(localStorage.getItem('rt_user') || 'null'),
+  publicData: null,
+  dash: null,
+  page: 'dashboard',
+  module: 'dashboard'
+};
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmtMoney = n => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(Number(n)||0);
+const fmtDate = d => { if(!d) return '-'; const x=new Date(d); return isNaN(x)?esc(d):x.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'}); };
+const driveImg = (id, size='w1000') => id ? `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=${size}` : '';
+const logoUrl = driveImg(APP_CONFIG.LOGO_DRIVE_ID,'w200');
+const bgUrl = driveImg(APP_CONFIG.BACKGROUND_DRIVE_ID,'w1600');
+
+function toast(msg,error=false){const t=$('toast');t.textContent=msg;t.className='toast'+(error?' error':'');clearTimeout(window._toast);window._toast=setTimeout(()=>t.classList.add('hidden'),3600);}
+function call(fn,args=[],silent=false){
+  return new Promise((resolve,reject)=>{
+    if(!window.google || !google.script || !google.script.run){
+      reject(new Error('UI sedang dijalankan di hosting statis. Gunakan URL Apps Script sebagai iframe atau isi APP_SCRIPT_URL.'));
+      return;
+    }
+    let runner=google.script.run.withSuccessHandler(v=>resolve(v)).withFailureHandler(e=>{if(!silent) toast(e.message||String(e),true);reject(e);});
+    runner[fn](...args);
+  });
+}
+function saveSession(x){state.token=x.token;state.user=x.user;localStorage.setItem('rt_token',x.token);localStorage.setItem('rt_user',JSON.stringify(x.user));}
+function clearSession(){state.token='';state.user=null;localStorage.removeItem('rt_token');localStorage.removeItem('rt_user');}
+function isAdmin(){return state.user && ['ADMIN','PENGURUS'].includes(state.user.role)}
+function isOwner(){return state.user?.role==='ADMIN'}
+function badge(s){const x=String(s||'').toUpperCase();let c='b-gray';if(['APPROVED','ACTIVE','PAID','PUBLISHED','HANDLED','ANSWERED'].includes(x))c='b-green';else if(['PENDING','OPEN','PLANNED','UNPAID'].includes(x))c='b-yellow';else if(['REJECTED','REJECT','CANCELLED','SUSPENDED'].includes(x))c='b-red';else if(['APPROVED'].includes(x))c='b-blue';return `<span class="badge ${c}">${esc(s||'-')}</span>`}
+function empty(text='Belum ada data.'){return `<div class="empty">${esc(text)}</div>`}
+
+async function boot(){
+  if(!window.google || !google.script || !google.script.run){
+    renderStaticHost();
+    return;
+  }
+  try{
+    state.publicData=await call('getPublicData',[],true);
+  }catch(e){state.publicData={settings:{appName:'Portal RT Digital'},announcements:[],activities:[],plans:[],stats:{}}}
+  if(state.token){
+    try{const s=await call('getSession',[state.token],true);if(!s.ok)clearSession();else state.user=s.user;}catch(e){clearSession();}
+  }
+  if(state.user) await renderApp();
+  else renderPublic();
+}
+function renderStaticHost(){
+  const url=APP_CONFIG.APP_SCRIPT_URL;
+  if(url && !url.includes('PASTE_')){
+    document.body.innerHTML=`<div class="iframe-shell"><iframe src="${esc(url)}" title="Portal RT Digital"></iframe></div>`;
+  }else{
+    document.body.innerHTML=`<div class="auth"><div class="auth-box"><div class="auth-logo"><img src="${logoUrl}"><h1>Portal RT Digital</h1><p>Konfigurasi hosting belum selesai</p></div><div class="card"><b>Untuk GitHub Pages / Blogger / hosting:</b><ol class="small"><li>Deploy project Apps Script sebagai Web App.</li><li>Salin URL /exec.</li><li>Isi <code>APP_SCRIPT_URL</code> pada file Index.html.</li><li>Upload Index.html ke hosting.</li></ol><p class="small muted">Versi paling sederhana adalah menampilkan Web App Apps Script langsung atau melalui iframe.</p></div></div></div>`;
+  }
+}
+
+function renderPublic(){
+  const d=state.publicData||{settings:{},announcements:[],activities:[],stats:{}};
+  const s=d.settings||{};
+  document.body.innerHTML=`
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><img src="${logoUrl}" onerror="this.style.display='none'"><div><strong>${esc(s.appName||'PORTAL RT DIGITAL')}</strong><span>Aplikasi Pelayanan & Informasi Warga</span></div></div>
+      <div class="top-message">Kemudahan Informasi, Pelayanan & Kebersamaan Warga dalam Satu Aplikasi</div>
+      <div class="top-actions">
+        <button class="top-action" onclick="showLogin()">🔐 Login & Register</button>
+        <button class="top-action" onclick="showLogin()">👥 ACC Akun oleh Ketua RT</button>
+        <button class="top-action" onclick="showLogin()">🔔 Pengingat Kegiatan</button>
+        <button class="top-action mobile-keep" onclick="showSOS()">🆘 Darurat SOS</button>
+      </div>
+    </header>
+    <section class="hero">
+      <div class="hero-card" style="--hero-bg:url('${bgUrl}')">
+        <div class="hero-content">
+          <div class="small">BERANDA PUBLIK • ${esc(s.rt||'RT 05')}</div>
+          <h1>Selamat Datang di<br>${esc(s.rt||'Portal RT')}</h1>
+          <p>${esc(s.village||'Desa')} — Sarana informasi, pelayanan dan kebersamaan warga dalam satu genggaman.</p>
+          <div class="btns"><button class="btn btn-primary" onclick="showLogin()">Login Warga / Pengurus</button><button class="btn btn-light" onclick="showRegister()">Daftar Akun Warga</button></div>
+        </div>
+      </div>
+    </section>
+    <section class="preview-grid">
+      <div class="card"><h3>📢 Pengumuman Terbaru</h3>${renderAnnouncementList(d.announcements)}</div>
+      <div class="card"><h3>📅 Jadwal Kegiatan Terdekat</h3>${renderActivityList(d.activities)}</div>
+      <div class="card"><h3>🌙 Jadwal Ronda</h3><div class="list"><div class="list-item"><div class="icon-box">🛡️</div><div><b>Kelompok 2</b><div class="small muted">Pukul 22.00 – 02.00 WIB</div><div class="small">Budi Santoso • Ahmad Ricky • Dedi Setiawan</div></div></div><div class="small muted">Login untuk melihat jadwal lengkap.</div></div></div>
+    </section>
+    <section class="stat-row">
+      <div class="stat"><b>${Number(d.stats?.residents||0)}</b><span>Warga aktif</span></div>
+      <div class="stat"><b>${Number(d.stats?.activities||0)}</b><span>Kegiatan terjadwal</span></div>
+      <div class="stat"><b>${Number(d.stats?.assets||0)}</b><span>Aset RT tersedia</span></div>
+    </section>
+    <div class="public-footer">© ${new Date().getFullYear()} ${esc(s.appName||'Portal RT Digital')} • ${esc(s.rt||'RT')} ${esc(s.village||'')}</div>
+  </div>
+  <button class="sos-float pulse" onclick="showSOS()">SOS</button>`;
+}
+function renderAnnouncementList(rows=[]){
+  if(!rows.length)return empty('Belum ada pengumuman.');
+  return `<div class="list">${rows.slice(0,5).map(r=>`<div class="list-item"><div class="icon-box">📢</div><div><b>${esc(r.title)}</b><div class="small muted">${fmtDate(r.publishAt)}</div><div class="small">${esc(String(r.content||'').slice(0,100))}</div></div></div>`).join('')}</div>`;
+}
+function renderActivityList(rows=[]){
+  if(!rows.length)return empty('Belum ada kegiatan.');
+  return `<div class="list">${rows.slice(0,5).map(r=>`<div class="list-item"><div class="icon-box">📅</div><div><b>${esc(r.title)}</b><div class="small muted">${fmtDate(r.date)} • ${esc(r.time||'')}</div><div class="small">${esc(r.location||'')}</div></div></div>`).join('')}</div>`;
+}
+
+function showLogin(){
+  $('modal').classList.remove('hidden');
+  $('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Login Warga / Pengurus</h3><button class="close" onclick="closeModal()">×</button></div>
+  <form class="form" onsubmit="doLogin(event)">
+    <div class="field"><label>NIK / Username</label><input id="loginNik" required autocomplete="username" placeholder="Masukkan NIK atau username"></div>
+    <div class="field"><label>Password</label><input id="loginPass" required type="password" autocomplete="current-password" placeholder="Masukkan password"></div>
+    <label class="small"><input type="checkbox" id="remember"> Ingat saya</label>
+    <button class="btn btn-primary btn-block">Login</button>
+  </form><div class="auth-switch">Belum punya akun? <a onclick="showRegister()">Daftar di sini</a></div></div>`;
+}
+function showRegister(){
+  $('modal').classList.remove('hidden');
+  $('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Daftar Akun Warga</h3><button class="close" onclick="closeModal()">×</button></div>
+  <form class="form" onsubmit="doRegister(event)">
+    <div class="grid grid-2"><div class="field"><label>NIK</label><input id="regNik" required></div><div class="field"><label>Nama Lengkap</label><input id="regName" required></div></div>
+    <div class="grid grid-2"><div class="field"><label>No. HP / WhatsApp</label><input id="regPhone" required></div><div class="field"><label>Email</label><input id="regEmail" type="email"></div></div>
+    <div class="field"><label>Alamat</label><textarea id="regAddress" required></textarea></div>
+    <div class="grid grid-2"><div class="field"><label>Password</label><input id="regPass" required type="password" minlength="6"></div><div class="field"><label>Ulangi Password</label><input id="regPass2" required type="password" minlength="6"></div></div>
+    <button class="btn btn-primary btn-block">Daftar</button>
+  </form><div class="auth-switch">Sudah punya akun? <a onclick="showLogin()">Login</a></div></div>`;
+}
+async function doLogin(e){
+  e.preventDefault();
+  try{const x=await call('login',[{nik:$('loginNik').value,password:$('loginPass').value}]);saveSession(x);closeModal();toast('Login berhasil');await renderApp();}catch(err){}
+}
+async function doRegister(e){
+  e.preventDefault();
+  if($('regPass').value!==$('regPass2').value)return toast('Konfirmasi password tidak sama',true);
+  try{const x=await call('registerCitizen',[{nik:$('regNik').value,name:$('regName').value,phone:$('regPhone').value,email:$('regEmail').value,address:$('regAddress').value,password:$('regPass').value}]);toast(x.message);showLogin();}catch(err){}
+}
+function closeModal(){$('modal').classList.add('hidden');$('modal').innerHTML='';}
+
+async function renderApp(){
+  state.dash=await call('getDashboard',[state.token],true).catch(()=>null);
+  if(!state.dash){clearSession();renderPublic();return;}
+  document.body.innerHTML=`
+  <div class="app">
+    <header class="topbar">
+      <div class="brand"><button class="btn btn-outline btn-sm" onclick="toggleSide()">☰</button><img src="${logoUrl}"><div><strong>PORTAL RT DIGITAL</strong><span>${esc(state.dash.user.role==='WARGA'?'Warga':'Ketua RT / Pengurus')}</span></div></div>
+      <div class="top-message">Kemudahan Informasi, Pelayanan & Kebersamaan Warga dalam Satu Aplikasi</div>
+      <div class="top-actions">
+        <button class="top-action" onclick="go('notifications')">🔔 Notifikasi</button>
+        <button class="top-action mobile-keep" onclick="showSOS()">🆘 Darurat SOS</button>
+        <button class="top-action" onclick="go('profile')">👤 ${esc(state.dash.user.name||'Akun')}</button>
+      </div>
+    </header>
+    <div class="layout">
+      ${renderSidebar()}
+      <main class="main" id="main"></main>
+    </div>
+  </div>
+  <button class="sos-float pulse" onclick="showSOS()">SOS</button>`;
+  renderPage();
+}
+function renderSidebar(){
+  const admin=isAdmin();
+  const items=[
+    ['dashboard','🏠','Dashboard'],
+    ['profile','👤','Profil Saya'],
+    ['borrowings','📦','Pengajuan Peminjaman Aset'],
+    ['feedback','💬','Kritik & Saran'],
+    ['sos','🆘','Darurat SOS'],
+    ['documents','📄','Upload Dokumen'],
+    ['announcements','📢','Pengumuman'],
+    ['activities','📅','Kegiatan'],
+    ['ronda','🛡️','Jadwal Ronda'],
+    ['plans','🗓️','Rencana Bulanan/Tahunan']
+  ];
+  if(admin)items.push(['users','👥','Data & ACC Warga'],['assets','🧰','Manajemen Aset'],['dues','💳','Iuran Warga'],['finance','💰','Keuangan RT'],['reports','📊','Laporan & Export'],['settings','⚙️','Pengaturan']);
+  return `<aside class="sidebar" id="sidebar"><div class="side-brand"><img src="${logoUrl}"><div><b>Portal RT Digital</b><small>${esc(state.dash?.user?.role||'WARGA')}</small></div></div><div class="nav-title">Menu Utama</div><nav class="nav">${items.map(x=>`<button id="nav-${x[0]}" onclick="go('${x[0]}')">${x[1]} ${x[2]}</button>`).join('')}<div class="nav-title">Akun</div><button onclick="doLogout()">🚪 Logout</button></nav></aside>`;
+}
+function toggleSide(){$('sidebar')?.classList.toggle('open')}
+async function go(page){state.page=page;state.module=page;document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));$('nav-'+page)?.classList.add('active');$('sidebar')?.classList.remove('open');await renderPage();}
+
+async function renderPage(){
+  const m=$('main'); if(!m)return;
+  if(state.page==='dashboard')return renderDashboard();
+  const titles={profile:'Profil Saya',borrowings:'Pengajuan Peminjaman Aset',feedback:'Kritik & Saran Layanan',sos:'Darurat SOS',documents:'Dokumen Warga',announcements:'Pengumuman',activities:'Kegiatan',ronda:'Jadwal Ronda',plans:'Rencana Bulanan & Tahunan',users:'Data Warga & Persetujuan Akun',assets:'Manajemen Aset RT',dues:'Iuran Warga',finance:'Keuangan RT',reports:'Laporan & Export',settings:'Pengaturan Portal',notifications:'Notifikasi'};
+  m.innerHTML=`<div class="mobile-head"><b>${titles[state.page]||'Portal RT'}</b><button onclick="toggleSide()">☰ Menu</button></div><div class="page-head"><div><h2>${titles[state.page]||'Portal RT'}</h2><p>Kelola layanan RT secara terpusat dan transparan.</p></div></div><div id="pageBody">${empty('Memuat...')}</div>`;
+  const fn={
+    profile:pageProfile,borrowings:pageBorrowings,feedback:pageFeedback,sos:pageSOS,documents:pageDocuments,
+    announcements:pageAnnouncements,activities:pageActivities,ronda:pageRonda,plans:pagePlans,users:pageUsers,
+    assets:pageAssets,dues:pageDues,finance:pageFinance,reports:pageReports,settings:pageSettings,notifications:pageNotifications
+  }[state.page];
+  if(fn) await fn(); else renderDashboard();
+}
+
+async function renderDashboard(){
+  const d=state.dash||await call('getDashboard',[state.token]);
+  state.dash=d;
+  const s=d.stats||{};
+  const admin=isAdmin();
+  $('main').innerHTML=`
+    <div class="mobile-head"><b>Dashboard</b><button onclick="toggleSide()">☰ Menu</button></div>
+    <div class="page-head"><div><h2>Halo, ${esc(d.user.name)} 👋</h2><p>${admin?'Dashboard Ketua RT / Pengurus':'Dashboard Warga'} • ${esc(d.user.status)}</p></div><div>${badge(d.user.status)}</div></div>
+    <div class="grid grid-4">
+      ${statCard('👥','Warga Aktif',s.residents||0)}
+      ${admin?statCard('⏳','Menunggu ACC',s.pendingUsers||0):statCard('📦','Pengajuan Aset',s.pendingBorrowings||0)}
+      ${admin?statCard('💰','Iuran Masuk',fmtMoney(s.duesPaid||0)):statCard('🔔','Notifikasi',(d.notifications||[]).filter(n=>String(n.read)!=='TRUE').length)}
+      ${admin?statCard('🆘','SOS Aktif',s.openSOS||0):statCard('🧾','Kegiatan',(d.activities||[]).length)}
+    </div>
+    <div class="grid grid-2 section">
+      <div class="card"><h3>📢 Pengumuman Terbaru</h3>${renderAnnouncementList(d.announcements||[])}</div>
+      <div class="card"><h3>📅 Kegiatan Terdekat</h3>${renderActivityList(d.activities||[])}</div>
+    </div>
+    ${admin?`<div class="grid grid-2 section"><div class="card"><h3>⏳ Akun Menunggu Persetujuan</h3>${renderPendingUsers(d.pendingUsers||[])}</div><div class="card"><h3>🆘 SOS Terbaru</h3>${renderSOSList(d.sos||[])}</div></div>`:''}
+    <div class="card section"><h3>⚡ Akses Cepat</h3><div class="btns">
+      ${admin?"<button class=\"btn btn-primary\" onclick=\"go('users')\">ACC Akun Warga</button>":''}
+      <button class="btn btn-outline" onclick="go('borrowings')">Pengajuan Aset</button><button class="btn btn-outline" onclick="go('feedback')">Kritik & Saran</button><button class="btn btn-danger" onclick="showSOS()">Darurat SOS</button>
+    </div></div>`;
+}
+function statCard(i,t,v){return `<div class="card dash-stat"><div><div class="small muted">${t}</div><div class="num">${v}</div></div><div class="ico">${i}</div></div>`}
+function renderPendingUsers(rows){if(!rows.length)return empty('Tidak ada akun menunggu.');return `<div class="list">${rows.slice(0,5).map(r=>`<div class="list-item"><div class="icon-box">👤</div><div style="flex:1"><b>${esc(r.name)}</b><div class="small muted">${esc(r.nik)} • ${esc(r.phone)}</div></div><button class="btn btn-primary btn-sm" onclick="approve('${r.id}')">ACC</button></div>`).join('')}</div>`}
+function renderSOSList(rows){if(!rows.length)return empty('Tidak ada SOS aktif.');return `<div class="list">${rows.slice(0,5).map(r=>`<div class="list-item"><div class="icon-box">🆘</div><div><b>${esc(r.name)}</b><div class="small">${esc(r.message)}</div><div class="small muted">${fmtDate(r.createdAt)}</div></div></div>`).join('')}</div>`}
+
+async function pageProfile(){
+  const u=state.dash.user;
+  $('pageBody').innerHTML=`<div class="grid grid-2"><div class="card"><div class="profile"><img class="avatar" src="${u.avatar||logoUrl}"><div><h3>${esc(u.name)}</h3><div class="small muted">${esc(u.role)} • ${badge(u.status)}</div></div></div><hr><form class="form" onsubmit="saveProfile(event)"><div class="grid grid-2"><div class="field"><label>NIK</label><input value="${esc(u.nik)}" disabled></div><div class="field"><label>Nama Lengkap</label><input id="pName" value="${esc(u.name)}" required></div></div><div class="grid grid-2"><div class="field"><label>No. HP / WhatsApp</label><input id="pPhone" value="${esc(u.phone)}"></div><div class="field"><label>Email</label><input id="pEmail" value="${esc(u.email)}" type="email"></div></div><div class="field"><label>Alamat</label><textarea id="pAddress">${esc(u.address)}</textarea></div><button class="btn btn-primary">Simpan Profil</button></form></div>
+  <div class="card"><h3>🔐 Ganti Password</h3><form class="form" onsubmit="changePass(event)"><div class="field"><label>Password Lama</label><input id="oldPass" type="password" required></div><div class="field"><label>Password Baru</label><input id="newPass" type="password" minlength="6" required></div><button class="btn btn-outline">Ganti Password</button></form><hr><h3>Info Akun</h3><div class="list"><div class="list-item"><b>Status</b><span>${badge(u.status)}</span></div><div class="list-item"><b>Terdaftar</b><span class="small">${fmtDate(u.createdAt)}</span></div></div></div></div>`;
+}
+async function saveProfile(e){e.preventDefault();try{const x=await call('updateProfile',[state.token,{name:$('pName').value,phone:$('pPhone').value,email:$('pEmail').value,address:$('pAddress').value}]);state.user=x.user;state.dash.user=x.user;localStorage.setItem('rt_user',JSON.stringify(x.user));toast('Profil diperbarui');}catch(err){}}
+async function changePass(e){e.preventDefault();try{await call('changeOwnPassword',[state.token,$('oldPass').value,$('newPass').value]);e.target.reset();toast('Password berhasil diubah');}catch(err){}}
+
+async function pageBorrowings(){
+  const [assets,rows]=await Promise.all([call('listAssets',[state.token],true),call('listBorrowings',[state.token],true)]);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Pengajuan Peminjaman Aset</h3><p>Pilih aset, tanggal peminjaman dan tujuan penggunaan.</p></div><button class="btn btn-primary" onclick="openBorrowModal()">+ Ajukan Peminjaman</button></div>${tableBorrow(rows)}</div>`;
+  window._assets=assets;
+}
+function tableBorrow(rows){if(!rows.length)return empty('Belum ada pengajuan.');return `<div class="table-wrap"><table class="table"><thead><tr><th>Aset</th><th>Periode</th><th>Keperluan</th><th>Jumlah</th><th>Status</th><th>Catatan</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.assetName)}</b></td><td>${fmtDate(r.startDate)} – ${fmtDate(r.endDate)}</td><td>${esc(r.purpose)}</td><td>${r.quantity}</td><td>${badge(r.status)}</td><td>${esc(r.reviewNote||'-')}</td></tr>`).join('')}</tbody></table></div>`}
+function openBorrowModal(){
+  const assets=window._assets||[];
+  $('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Ajukan Peminjaman Aset</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="submitBorrow(event)">
+  <div class="field"><label>Aset</label><select id="bAsset" required>${assets.filter(a=>Number(a.available)>0).map(a=>`<option value="${a.id}">${esc(a.name)} — tersedia ${a.available}</option>`).join('')}</select></div>
+  <div class="grid grid-2"><div class="field"><label>Tanggal Pinjam</label><input id="bStart" type="date" required></div><div class="field"><label>Tanggal Kembali</label><input id="bEnd" type="date" required></div></div>
+  <div class="field"><label>Jumlah</label><input id="bQty" type="number" min="1" value="1" required></div><div class="field"><label>Keperluan</label><textarea id="bPurpose" required placeholder="Contoh: rapat warga / kerja bakti"></textarea></div>
+  <button class="btn btn-primary btn-block">Ajukan Peminjaman</button></form></div>`;
+}
+async function submitBorrow(e){e.preventDefault();try{await call('borrowAsset',[state.token,{assetId:$('bAsset').value,startDate:$('bStart').value,endDate:$('bEnd').value,quantity:$('bQty').value,purpose:$('bPurpose').value}]);closeModal();toast('Pengajuan terkirim, menunggu persetujuan');pageBorrowings();}catch(err){}}
+
+async function pageFeedback(){
+  const rows=await call('listFeedback',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Kritik & Saran Layanan</h3><p>Sampaikan masukan untuk peningkatan pelayanan RT.</p></div><button class="btn btn-primary" onclick="openFeedbackModal()">+ Kirim Masukan</button></div>${feedbackTable(rows)}</div>`;
+}
+function feedbackTable(rows){if(!rows.length)return empty('Belum ada kritik/saran.');return `<div class="table-wrap"><table class="table"><thead><tr><th>Judul</th><th>Kategori</th><th>Pesan</th><th>Status</th><th>Tanggapan</th><th>Tanggal</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.title)}</b></td><td>${esc(r.category)}</td><td>${esc(r.message)}</td><td>${badge(r.status)}</td><td>${esc(r.reply||'-')}</td><td>${fmtDate(r.createdAt)}</td></tr>`).join('')}</tbody></table></div>`}
+function openFeedbackModal(){
+  $('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Kritik & Saran</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="submitFeedback(event)"><div class="field"><label>Kategori</label><select id="fCat"><option>Pelayanan</option><option>Kebersihan</option><option>Keamanan</option><option>Keuangan</option><option>Aplikasi</option><option>Lainnya</option></select></div><div class="field"><label>Judul</label><input id="fTitle" required></div><div class="field"><label>Pesan</label><textarea id="fMsg" required></textarea></div><button class="btn btn-primary">Kirim</button></form></div>`;
+}
+async function submitFeedback(e){e.preventDefault();try{await call('submitFeedback',[state.token,{category:$('fCat').value,title:$('fTitle').value,message:$('fMsg').value}]);closeModal();toast('Masukan berhasil dikirim');pageFeedback();}catch(err){}}
+
+async function pageSOS(){const rows=await call('listSOS',[state.token],true);$('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Darurat SOS</h3><p>Gunakan hanya untuk keadaan darurat nyata.</p></div><button class="btn btn-danger" onclick="showSOS()">🆘 KIRIM SOS</button></div>${sosTable(rows)}</div>`}
+function sosTable(rows){if(!rows.length)return empty('Belum ada riwayat SOS.');return `<div class="table-wrap"><table class="table"><thead><tr><th>Warga</th><th>Lokasi</th><th>Pesan</th><th>Status</th><th>Waktu</th>${isAdmin()?'<th>Aksi</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.name)}<br><span class="small muted">${esc(r.phone)}</span></td><td>${esc(r.location||'-')}</td><td>${esc(r.message)}</td><td>${badge(r.status)}</td><td>${fmtDate(r.createdAt)}</td>${isAdmin()?`<td><button class="btn btn-primary btn-sm" onclick="handleSOS('${r.id}')">Tangani</button></td>`:''}</tr>`).join('')}</tbody></table></div>`}
+function showSOS(){
+  if(!state.token){toast('Login terlebih dahulu untuk mengirim SOS',true);showLogin();return}
+  $('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3 style="color:var(--red)">🆘 Darurat SOS</h3><button class="close" onclick="closeModal()">×</button></div><p class="small">Tombol ini akan mengirim pemberitahuan ke Ketua RT/Pengurus.</p><form class="form" onsubmit="sendSOS(event)"><div class="field"><label>Lokasi saat ini</label><input id="sLocation" placeholder="Contoh: Jl. Melati No. 10 RT 05"></div><div class="field"><label>Keterangan</label><textarea id="sMessage" required placeholder="Jelaskan keadaan darurat..."></textarea></div><button class="btn btn-danger btn-block">KIRIM SOS SEKARANG</button></form></div>`;
+}
+async function sendSOS(e){e.preventDefault();if(!confirm('Kirim SOS darurat sekarang?'))return;try{await call('sendSOS',[state.token,{location:$('sLocation').value,message:$('sMessage').value}]);closeModal();toast('SOS berhasil dikirim');if(state.page==='sos')pageSOS();}catch(err){}}
+async function handleSOS(id){const note=prompt('Tindakan/catatan penanganan:','Sudah ditangani');if(note===null)return;try{await call('handleSOS',[state.token,id,'HANDLED',note]);toast('SOS ditandai tertangani');pageSOS();}catch(err){}}
+
+async function pageDocuments(){
+  const rows=await call('listDocuments',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Upload Dokumen</h3><p>Dokumen disimpan ke Google Drive milik aplikasi.</p></div><button class="btn btn-primary" onclick="openDocModal()">+ Upload Dokumen</button></div>${rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Nama</th><th>Jenis</th><th>Catatan</th><th>Status</th><th>Tanggal</th><th></th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.type)}</td><td>${esc(r.note||'-')}</td><td>${badge(r.status)}</td><td>${fmtDate(r.createdAt)}</td><td><a class="btn btn-outline btn-sm" target="_blank" href="${esc(r.url)}">Buka</a></td></tr>`).join('')}</tbody></table></div>`:empty()}</div>`;
+}
+function openDocModal(){$('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Upload Dokumen</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="uploadDoc(event)"><div class="field"><label>Jenis Dokumen</label><select id="dType"><option>KTP</option><option>KK</option><option>Surat Pengantar</option><option>Dokumen Peminjaman</option><option>Lainnya</option></select></div><div class="field"><label>Pilih File</label><input id="dFile" type="file" required></div><div class="field"><label>Catatan</label><textarea id="dNote"></textarea></div><button class="btn btn-primary">Upload</button></form></div>`}
+async function uploadDoc(e){e.preventDefault();const f=$('dFile').files[0];if(!f)return;const reader=new FileReader();reader.onload=async()=>{try{await call('uploadDocument',[state.token,{name:f.name,type:$('dType').value,data:reader.result,mimeType:f.type,note:$('dNote').value}]);closeModal();toast('Dokumen berhasil diupload');pageDocuments();}catch(err){}};reader.readAsDataURL(f)}
+
+async function pageAnnouncements(){
+  const rows=await call('listAnnouncements',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Pengumuman</h3></div>${isAdmin()?'<button class="btn btn-primary" onclick="openAnnModal()">+ Tambah</button>':''}</div>${rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Judul</th><th>Kategori</th><th>Isi</th><th>Status</th><th>Publikasi</th>${isOwner()?'<th>Aksi</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.title)}</b></td><td>${esc(r.category)}</td><td>${esc(String(r.content).slice(0,160))}</td><td>${badge(r.status)}</td><td>${fmtDate(r.publishAt)}</td>${isOwner()?`<td><button class="btn btn-danger btn-sm" onclick="deleteAnn('${r.id}')">Hapus</button></td>`:''}</tr>`).join('')}</tbody></table></div>`:empty()}</div>`;
+}
+function openAnnModal(){ $('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Tambah Pengumuman</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="saveAnn(event)"><div class="field"><label>Judul</label><input id="aTitle" required></div><div class="field"><label>Kategori</label><select id="aCat"><option>Umum</option><option>Kegiatan</option><option>Keuangan</option><option>Keamanan</option><option>Kesehatan</option></select></div><div class="field"><label>Isi</label><textarea id="aContent" required></textarea></div><button class="btn btn-primary">Publikasikan</button></form></div>`}
+async function saveAnn(e){e.preventDefault();try{await call('saveAnnouncement',[state.token,{title:$('aTitle').value,category:$('aCat').value,content:$('aContent').value,status:'PUBLISHED'}]);closeModal();toast('Pengumuman ditambahkan');pageAnnouncements();}catch(err){}}
+async function deleteAnn(id){if(!confirm('Hapus pengumuman?'))return;try{await call('deleteAnnouncement',[state.token,id]);pageAnnouncements();}catch(err){}}
+
+async function pageActivities(){
+  const rows=await call('listActivities',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Jadwal Kegiatan</h3></div>${isAdmin()?'<button class="btn btn-primary" onclick="openActivityModal()">+ Tambah Kegiatan</button>':''}</div>${rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Kegiatan</th><th>Tanggal</th><th>Waktu</th><th>Lokasi</th><th>Kategori</th><th>Status</th>${isOwner()?'<th>Aksi</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.title)}</b><br><span class="small muted">${esc(r.description||'')}</span></td><td>${fmtDate(r.date)}</td><td>${esc(r.time||'-')}</td><td>${esc(r.location||'-')}</td><td>${esc(r.category||'-')}</td><td>${badge(r.status)}</td>${isOwner()?`<td><button class="btn btn-danger btn-sm" onclick="deleteActivity('${r.id}')">Hapus</button></td>`:''}</tr>`).join('')}</tbody></table></div>`:empty()}</div>`;
+}
+function openActivityModal(){$('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Tambah Kegiatan</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="saveActivity(event)"><div class="field"><label>Nama Kegiatan</label><input id="acTitle" required></div><div class="grid grid-2"><div class="field"><label>Tanggal</label><input id="acDate" type="date" required></div><div class="field"><label>Waktu</label><input id="acTime" placeholder="07:00 WIB"></div></div><div class="grid grid-2"><div class="field"><label>Lokasi</label><input id="acLocation"></div><div class="field"><label>Kategori</label><select id="acCat"><option>Umum</option><option>Kebersihan</option><option>Kesehatan</option><option>Keamanan</option><option>Sosial</option></select></div></div><div class="field"><label>Deskripsi</label><textarea id="acDesc"></textarea></div><button class="btn btn-primary">Simpan Kegiatan</button></form></div>`}
+async function saveActivity(e){e.preventDefault();try{await call('saveActivity',[state.token,{title:$('acTitle').value,date:$('acDate').value,time:$('acTime').value,location:$('acLocation').value,category:$('acCat').value,description:$('acDesc').value}]);closeModal();toast('Kegiatan ditambahkan');pageActivities();}catch(err){}}
+async function deleteActivity(id){if(!confirm('Hapus kegiatan?'))return;try{await call('deleteActivity',[state.token,id]);pageActivities();}catch(err){}}
+
+async function pageRonda(){
+  const rows=await call('listRonda',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Jadwal Ronda Malam</h3></div>${isAdmin()?'<button class="btn btn-primary" onclick="openRondaModal()">+ Jadwal Ronda</button>':''}</div>${rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Tanggal</th><th>Shift</th><th>Kelompok</th><th>Anggota</th><th>Lokasi</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${fmtDate(r.date)}</td><td>${esc(r.shift)}</td><td><b>${esc(r.groupName)}</b></td><td>${esc(r.members||'-')}</td><td>${esc(r.location||'-')}</td><td>${badge(r.status)}</td></tr>`).join('')}</tbody></table></div>`:empty()}</div>`;
+}
+function openRondaModal(){$('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Jadwal Ronda</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="saveRonda(event)"><div class="grid grid-2"><div class="field"><label>Tanggal</label><input id="rDate" type="date" required></div><div class="field"><label>Shift</label><input id="rShift" placeholder="22.00 – 02.00 WIB" required></div></div><div class="field"><label>Kelompok</label><input id="rGroup" required></div><div class="field"><label>Anggota</label><textarea id="rMembers" placeholder="Nama dipisah koma"></textarea></div><div class="field"><label>Lokasi</label><input id="rLocation" value="Pos Ronda"></div><button class="btn btn-primary">Simpan Jadwal</button></form></div>`}
+async function saveRonda(e){e.preventDefault();try{await call('saveRonda',[state.token,{date:$('rDate').value,shift:$('rShift').value,groupName:$('rGroup').value,members:$('rMembers').value,location:$('rLocation').value}]);closeModal();toast('Jadwal ronda disimpan');pageRonda();}catch(err){}}
+
+async function pagePlans(){
+  const rows=await call('listPlans',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Rencana Bulanan & Tahunan</h3><p>Kelola agenda kerja RT sepanjang tahun.</p></div>${isAdmin()?'<button class="btn btn-primary" onclick="openPlanModal()">+ Tambah Rencana</button>':''}</div>${rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Jenis</th><th>Rencana</th><th>Tanggal</th><th>Waktu</th><th>Lokasi</th><th>Anggaran</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.type)}</td><td><b>${esc(r.title)}</b><br><span class="small">${esc(r.description||'')}</span></td><td>${fmtDate(r.date)}</td><td>${esc(r.time||'-')}</td><td>${esc(r.location||'-')}</td><td>${fmtMoney(r.budget)}</td><td>${badge(r.status)}</td></tr>`).join('')}</tbody></table></div>`:empty()}</div>`;
+}
+function openPlanModal(){$('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Tambah Rencana</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="savePlan(event)"><div class="grid grid-2"><div class="field"><label>Jenis</label><select id="plType"><option>Bulanan</option><option>Tahunan</option></select></div><div class="field"><label>Tanggal</label><input id="plDate" type="date" required></div></div><div class="field"><label>Judul</label><input id="plTitle" required></div><div class="field"><label>Deskripsi</label><textarea id="plDesc"></textarea></div><div class="grid grid-2"><div class="field"><label>Waktu</label><input id="plTime"></div><div class="field"><label>Lokasi</label><input id="plLoc"></div></div><div class="field"><label>Anggaran</label><input id="plBudget" type="number" min="0" value="0"></div><button class="btn btn-primary">Simpan</button></form></div>`}
+async function savePlan(e){e.preventDefault();try{await call('savePlan',[state.token,{type:$('plType').value,title:$('plTitle').value,date:$('plDate').value,time:$('plTime').value,location:$('plLoc').value,budget:$('plBudget').value,description:$('plDesc').value}]);closeModal();toast('Rencana disimpan');pagePlans();}catch(err){}}
+
+async function pageUsers(){
+  if(!isAdmin()){go('dashboard');return}
+  const rows=await call('listUsers',[state.token,{}],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Data Warga & Persetujuan Akun</h3><p>Ketua RT dapat menyetujui, menolak, menonaktifkan atau mengaktifkan akun.</p></div><button class="btn btn-outline" onclick="exportData('users')">Export CSV</button></div><div class="module-tabs"><button class="active" onclick="filterUsers('')">Semua</button><button onclick="filterUsers('PENDING')">Menunggu ACC</button><button onclick="filterUsers('APPROVED')">Aktif</button><button onclick="filterUsers('SUSPENDED')">Nonaktif</button></div><div id="usersTable">${usersTable(rows)}</div></div>`;
+}
+function usersTable(rows){if(!rows.length)return empty();return `<div class="table-wrap"><table class="table"><thead><tr><th>Warga</th><th>NIK</th><th>Kontak</th><th>Alamat</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.name)}</b><br><span class="small muted">${esc(r.role)}</span></td><td>${esc(r.nik)}</td><td>${esc(r.phone)}<br>${esc(r.email||'')}</td><td>${esc(r.address)}</td><td>${badge(r.status)}</td><td>${r.status==='PENDING'?`<button class="btn btn-primary btn-sm" onclick="approve('${r.id}')">Setujui</button> <button class="btn btn-danger btn-sm" onclick="rejectUser('${r.id}')">Tolak</button>`:r.role==='WARGA'?`${r.status==='APPROVED'?`<button class="btn btn-warning btn-sm" onclick="suspendUser('${r.id}')">Nonaktifkan</button>`:`<button class="btn btn-primary btn-sm" onclick="activateUser('${r.id}')">Aktifkan</button>`}`:''}</td></tr>`).join('')}</tbody></table></div>`}
+async function filterUsers(status){const rows=await call('listUsers',[state.token,status?{status}:{}],true);$('usersTable').innerHTML=usersTable(rows)}
+async function approve(id){try{await call('approveUser',[state.token,id,'APPROVE','']);toast('Akun disetujui');pageUsers();}catch(err){}}
+async function rejectUser(id){const note=prompt('Alasan penolakan:','Data belum sesuai');if(note===null)return;try{await call('approveUser',[state.token,id,'REJECT',note]);toast('Akun ditolak');pageUsers();}catch(err){}}
+async function suspendUser(id){if(!confirm('Nonaktifkan akun warga?'))return;try{await call('changeUserStatus',[state.token,id,'SUSPENDED']);pageUsers();}catch(err){}}
+async function activateUser(id){try{await call('changeUserStatus',[state.token,id,'APPROVED']);pageUsers();}catch(err){}}
+
+async function pageAssets(){
+  const rows=await call('listAssets',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Manajemen Aset RT</h3><p>Inventaris barang, stok, kondisi dan aturan peminjaman.</p></div><button class="btn btn-primary" onclick="openAssetModal()">+ Tambah Aset</button></div><div class="table-wrap"><table class="table"><thead><tr><th>Aset</th><th>Kategori</th><th>Jumlah</th><th>Tersedia</th><th>Kondisi</th><th>Lokasi</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${esc(r.name)}</b><br><span class="small">${esc(r.description||'')}</span></td><td>${esc(r.category)}</td><td>${r.quantity}</td><td>${r.available}</td><td>${esc(r.condition)}</td><td>${esc(r.location)}</td><td>${badge(r.status)}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+function openAssetModal(){$('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Tambah Aset RT</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="saveAsset(event)"><div class="field"><label>Nama Aset</label><input id="asName" required></div><div class="grid grid-2"><div class="field"><label>Kategori</label><input id="asCat" value="Perlengkapan"></div><div class="field"><label>Jumlah</label><input id="asQty" type="number" min="1" value="1" required></div></div><div class="grid grid-2"><div class="field"><label>Kondisi</label><input id="asCond" value="Baik"></div><div class="field"><label>Lokasi</label><input id="asLoc" value="Gudang RT"></div></div><div class="field"><label>Deskripsi</label><textarea id="asDesc"></textarea></div><div class="field"><label>Aturan Peminjaman</label><textarea id="asRules"></textarea></div><button class="btn btn-primary">Simpan Aset</button></form></div>`}
+async function saveAsset(e){e.preventDefault();try{await call('saveAsset',[state.token,{name:$('asName').value,category:$('asCat').value,quantity:$('asQty').value,condition:$('asCond').value,location:$('asLoc').value,description:$('asDesc').value,rules:$('asRules').value}]);closeModal();toast('Aset disimpan');pageAssets();}catch(err){}}
+
+async function pageDues(){
+  const rows=await call('listDues',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><div><h3>Iuran Warga</h3><p>Pencatatan iuran bulanan warga.</p></div>${isAdmin()?'<button class="btn btn-primary" onclick="openDueModal()">+ Catat Iuran</button>':''}</div>${rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Warga</th><th>Periode</th><th>Jumlah</th><th>Status</th><th>Bayar</th><th>Metode</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.name)}</td><td>${esc(r.month)} ${r.year}</td><td>${fmtMoney(r.amount)}</td><td>${badge(r.status)}</td><td>${fmtDate(r.paidAt)}</td><td>${esc(r.method||'-')}</td></tr>`).join('')}</tbody></table></div>`:empty()}</div>`;
+}
+async function openDueModal(){const users=await call('listUsers',[state.token,{status:'APPROVED'}],true);$('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Catat Iuran</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="saveDue(event)"><div class="field"><label>Warga</label><select id="duUser" required>${users.filter(u=>u.role==='WARGA').map(u=>`<option value="${u.id}">${esc(u.name)} — ${esc(u.nik)}</option>`).join('')}</select></div><div class="grid grid-2"><div class="field"><label>Bulan</label><select id="duMonth">${['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'].map(x=>`<option>${x}</option>`).join('')}</select></div><div class="field"><label>Tahun</label><input id="duYear" type="number" value="${new Date().getFullYear()}"></div></div><div class="grid grid-2"><div class="field"><label>Nominal</label><input id="duAmount" type="number" value="50000"></div><div class="field"><label>Status</label><select id="duStatus"><option value="PAID">PAID</option><option value="UNPAID">UNPAID</option></select></div></div><div class="field"><label>Metode</label><input id="duMethod" placeholder="Tunai / Transfer / QRIS"></div><button class="btn btn-primary">Simpan</button></form></div>`}
+async function saveDue(e){e.preventDefault();try{await call('saveDue',[state.token,{userId:$('duUser').value,month:$('duMonth').value,year:$('duYear').value,amount:$('duAmount').value,status:$('duStatus').value,method:$('duMethod').value,paidAt:$('duStatus').value==='PAID'?new Date().toISOString():''}]);closeModal();toast('Iuran dicatat');pageDues();}catch(err){}}
+
+async function pageFinance(){
+  const rows=await call('listFinance',[state.token],true);const income=rows.filter(r=>String(r.type).toUpperCase()==='INCOME').reduce((a,r)=>a+Number(r.amount||0),0),expense=rows.filter(r=>String(r.type).toUpperCase()==='EXPENSE').reduce((a,r)=>a+Number(r.amount||0),0);
+  $('pageBody').innerHTML=`<div class="grid grid-3"><div class="card"><div class="small muted">Pemasukan</div><div class="dash-stat"><b class="num">${fmtMoney(income)}</b>💰</div></div><div class="card"><div class="small muted">Pengeluaran</div><div class="dash-stat"><b class="num">${fmtMoney(expense)}</b>💸</div></div><div class="card"><div class="small muted">Saldo</div><div class="dash-stat"><b class="num">${fmtMoney(income-expense)}</b>🏦</div></div></div><div class="card section"><div class="page-head"><h3>Transaksi Keuangan</h3><button class="btn btn-primary" onclick="openFinanceModal()">+ Transaksi</button></div>${rows.length?`<div class="table-wrap"><table class="table"><thead><tr><th>Tipe</th><th>Kategori</th><th>Deskripsi</th><th>Nominal</th><th>Tanggal</th><th>Metode</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${badge(r.type)}</td><td>${esc(r.category)}</td><td>${esc(r.description)}</td><td>${fmtMoney(r.amount)}</td><td>${fmtDate(r.date)}</td><td>${esc(r.method||'-')}</td></tr>`).join('')}</tbody></table></div>`:empty()}</div>`;
+}
+function openFinanceModal(){$('modal').classList.remove('hidden');$('modal').innerHTML=`<div class="modal-box"><div class="modal-head"><h3>Transaksi Keuangan</h3><button class="close" onclick="closeModal()">×</button></div><form class="form" onsubmit="saveFinance(event)"><div class="grid grid-2"><div class="field"><label>Tipe</label><select id="fiType"><option value="INCOME">INCOME / Pemasukan</option><option value="EXPENSE">EXPENSE / Pengeluaran</option></select></div><div class="field"><label>Tanggal</label><input id="fiDate" type="date" required value="${new Date().toISOString().slice(0,10)}"></div></div><div class="field"><label>Kategori</label><input id="fiCat" required placeholder="Iuran / ATK / Kegiatan"></div><div class="field"><label>Deskripsi</label><input id="fiDesc" required></div><div class="grid grid-2"><div class="field"><label>Nominal</label><input id="fiAmount" type="number" min="0" required></div><div class="field"><label>Metode</label><input id="fiMethod" placeholder="Tunai / Transfer"></div></div><div class="field"><label>Referensi</label><input id="fiRef"></div><button class="btn btn-primary">Simpan Transaksi</button></form></div>`}
+async function saveFinance(e){e.preventDefault();try{await call('saveFinance',[state.token,{type:$('fiType').value,date:$('fiDate').value,category:$('fiCat').value,description:$('fiDesc').value,amount:$('fiAmount').value,method:$('fiMethod').value,reference:$('fiRef').value}]);closeModal();toast('Transaksi disimpan');pageFinance();}catch(err){}}
+
+async function pageReports(){
+  $('pageBody').innerHTML=`<div class="grid grid-3">${['users','announcements','activities','ronda','assets','borrowings','feedback','sos','documents','dues','finance','plans'].map(x=>`<div class="card"><h3>${x[0].toUpperCase()+x.slice(1)}</h3><p class="small muted">Export data ${x} ke CSV.</p><button class="btn btn-outline btn-block" onclick="exportData('${x}')">Export CSV</button></div>`).join('')}</div>`;
+}
+async function exportData(mod){try{const x=await call('exportModule',[state.token,mod]);toast('File dibuat: '+x.name);window.open(x.url,'_blank');}catch(err){}}
+
+async function pageSettings(){
+  if(!isOwner()){$('pageBody').innerHTML=empty('Hanya ADMIN yang dapat mengubah pengaturan.');return}
+  const s=await call('getSettings',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><h3>Pengaturan Portal</h3><form class="form" onsubmit="saveSettings(event)"><div class="grid grid-2"><div class="field"><label>Nama Aplikasi</label><input id="setAppName" value="${esc(s.appName||'Portal RT Digital')}"></div><div class="field"><label>RT</label><input id="setRT" value="${esc(s.rt||'')}"></div></div><div class="grid grid-2"><div class="field"><label>RW</label><input id="setRW" value="${esc(s.rw||'')}"></div><div class="field"><label>Desa</label><input id="setVillage" value="${esc(s.village||'')}"></div></div><div class="grid grid-2"><div class="field"><label>Ketua RT</label><input id="setChair" value="${esc(s.chairmanName||'')}"></div><div class="field"><label>WhatsApp Ketua RT</label><input id="setPhone" value="${esc(s.chairmanPhone||'')}"></div></div><div class="field"><label>Pesan Darurat</label><textarea id="setEmergency">${esc(s.emergencyMessage||'')}</textarea></div><button class="btn btn-primary">Simpan Pengaturan</button></form></div><div class="card section"><h3>⚙️ Sistem</h3><button class="btn btn-outline" onclick="createTrigger()">Aktifkan Pengingat Harian</button><p class="small muted">Trigger akan mengingatkan warga tentang kegiatan/rencana H-1.</p></div>`;
+}
+async function saveSettings(e){e.preventDefault();try{const x=await call('saveSettings',[state.token,{appName:$('setAppName').value,rt:$('setRT').value,rw:$('setRW').value,village:$('setVillage').value,chairmanName:$('setChair').value,chairmanPhone:$('setPhone').value,emergencyMessage:$('setEmergency').value}]);toast('Pengaturan disimpan');}catch(err){}}
+async function createTrigger(){try{await call('createDailyTrigger',[]);toast('Pengingat harian diaktifkan');}catch(err){}}
+
+async function pageNotifications(){
+  const rows=await call('getNotifications',[state.token],true);
+  $('pageBody').innerHTML=`<div class="card"><div class="page-head"><h3>Notifikasi</h3><button class="btn btn-outline" onclick="renderDashboard()">Kembali</button></div>${rows.length?rows.map(n=>`<div class="notification ${String(n.read)!=='TRUE'?'unread':''}" onclick="readNotification('${n.id}')"><b>${esc(n.title)}</b><div class="small">${esc(n.message)}</div><div class="small muted">${fmtDate(n.createdAt)}</div></div>`).join(''):empty('Belum ada notifikasi.')}</div>`;
+}
+async function readNotification(id){try{await call('markNotificationRead',[state.token,id],true);pageNotifications();}catch(e){}}
+
+async function doLogout(){await call('logout',[state.token],true).catch(()=>{});clearSession();renderPublic();toast('Anda telah logout');}
+
+window.addEventListener('load',boot);
+</script>
+</body>
+</html>
